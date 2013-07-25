@@ -1,0 +1,19 @@
+#closeAllFolders{
+  background:#333333;
+  display: inline-block;
+  font-size: 15px;
+  border-radius: 3px;
+  padding: 0 5px;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+#closeAllFolders:hover{
+  background:#555555;
+  cursor:pointer;
+}
+
+#project-files-header{
+  position:relative;
+}

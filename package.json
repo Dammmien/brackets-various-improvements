@@ -1,0 +1,16 @@
+{
+  "name": "Brackets Perso",
+  "title": "Brackets Perso",
+  "version": "1.0.0",
+  "description": "Description",
+  "homepage": "https://zefzefzefzef",
+  "files": [
+      "main.js",
+      "betterInterface.js",
+      "caseConverter.js",
+      "superClipboard.js"
+  ],
+  "engines": {
+      "brackets": ">=0.24.0"
+  }
+}
