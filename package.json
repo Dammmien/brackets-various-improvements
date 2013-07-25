@@ -3,6 +3,7 @@
   "title": "Various improvements",
   "version": "1.0.0",
   "description": "This extension add some improvements to the code editor Brackets.",
+  "homepage": "https://github.com/Dammmien/brackets-various-improvements",
   "files": [
       "main.js",
       "betterInterface.js",
