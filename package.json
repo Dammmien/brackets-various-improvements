@@ -1,14 +1,14 @@
 {
-  "name": "Brackets Perso",
-  "title": "Brackets Perso",
+  "name": "Various improvements",
+  "title": "Various improvements",
   "version": "1.0.0",
-  "description": "Description",
-  "homepage": "https://zefzefzefzef",
+  "description": "This extension add some improvements to the code editor Brackets.",
   "files": [
       "main.js",
       "betterInterface.js",
       "caseConverter.js",
-      "superClipboard.js"
+      "superClipboard.js",
+      "style.css"
   ],
   "engines": {
       "brackets": ">=0.24.0"
