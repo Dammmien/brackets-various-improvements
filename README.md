@@ -1,9 +1,8 @@
 Various improvements
 =============================
+It's an experiment of Brackets code editor extensions.
 
-This extension add some improvements to the code editor Brackets.
-
-Improvements list :
+This extension add some improvements :
 
 - Add some informations on the status bar (path and size of the currently edited file).
 - Add a toLowerCase and toUpperCase features in the contextual menu.
