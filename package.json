@@ -1,8 +1,8 @@
 {
   "name": "brackets-various-improvements",
   "title": "Various improvements",
-  "version": "1.0.0",
-  "description": "This extension add some improvements to the code editor Brackets.",
+  "version": "1.0.1",
+  "description": "Add more informations in the status bar, lowercase and uppercase converter, super clipboard, button close all folders in file tree.",
   "homepage": "https://github.com/Dammmien/brackets-various-improvements",
   "files": [
       "main.js",
