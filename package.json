@@ -1,7 +1,7 @@
 {
   "name": "brackets-various-improvements",
   "title": "Various improvements",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Add more informations in the status bar, lowercase and uppercase converter, super clipboard, button close all folders in file tree.",
   "homepage": "https://github.com/Dammmien/brackets-various-improvements",
   "files": [
