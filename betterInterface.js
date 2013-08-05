@@ -30,8 +30,10 @@ define(function (require, exports, module) {
   
     function onCurrentDocumentChange(event) {
         var currentDoc = DocumentManager.getCurrentDocument();
-        updateSizeInfo(currentDoc);
-        updatePathInfo(currentDoc);
+        if (currentDoc !== null) {
+            updateSizeInfo(currentDoc);
+            updatePathInfo(currentDoc);
+        }
     }
   
     function fileInfo() {
