@@ -45,7 +45,11 @@ define(function (require, exports, module) {
         $('#status-language').after('<div id="fileSizeInfo"></div> <div id="filePathInfo"></div>');
     }
   
-    exports.folderCloser = folderCloser;
-    exports.fileInfo = fileInfo;
+    function init() {
+        fileInfo();
+        folderCloser();
+    }
+    
+    exports.init = init;
 
 });
