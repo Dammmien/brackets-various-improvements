@@ -13,10 +13,25 @@ define(function (require, exports, module) {
         $searchFilesPanel   = $('#search-files-results'),
         projectFilesList    = [],
         html;
+    
+    function checkResultNb(a, b) {
+        if (a > 0) {
+            $('#no-find-file').hide();
+            $('#number-found-files').text(a + ' found file(s) among ' + b + ' files').show();
+        } else {
+            $('#number-found-files').empty().hide();
+            $('#number-analysed-files').text(b);
+            $('#no-find-file').show();
+        }
+    }
   
     function listProjectFiles() {
         FileIndexManager.getFileInfoList("all").done(function (fileListResult) {
-            var fileListResultLength  = fileListResult.length, i, dot, extension, fileData;
+            var fileListResultLength = fileListResult.length,
+                i,
+                dot,
+                extension,
+                fileData;
             for (i = 0; i < fileListResultLength; i += 1) {
                 dot       = fileListResult[i].name.lastIndexOf(".");
                 extension = fileListResult[i].name.substring(dot);
@@ -38,25 +53,35 @@ define(function (require, exports, module) {
     }
   
     function searchInName(name_searched) {
-        var projectFilesListLength = projectFilesList.length, i;
+        var projectFilesListLength = projectFilesList.length,
+            resultNb = 0,
+            i;
         $('.search-files-table').empty();
         for (i = 0; i < projectFilesListLength; i += 1) {
             if (projectFilesList[i].name.indexOf(name_searched) !== -1) {
                 addToResult(projectFilesList[i].name, projectFilesList[i].fullPath);
+                resultNb += 1;
             }
         }
+        checkResultNb(resultNb, projectFilesListLength);
     }
   
     function searchInExtension(ext_searched, name_searched) {
-        var projectFilesListLength = projectFilesList.length, i, ext, name;
+        var projectFilesListLength = projectFilesList.length,
+            resultNb = 0,
+            i,
+            ext,
+            name;
         $('.search-files-table').empty();
         for (i = 0; i < projectFilesListLength; i += 1) {
             ext   = projectFilesList[i].ext;
             name  = name_searched === '*' ? '*' : projectFilesList[i].name;
             if (name.indexOf(name_searched) !== -1 && ext_searched.indexOf(ext) !== -1) {
                 addToResult(projectFilesList[i].name, projectFilesList[i].fullPath);
+                resultNb += 1;
             }
         }
+        checkResultNb(resultNb, projectFilesListLength);
     }
   
     function resetSearch() {
