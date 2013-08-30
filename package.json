@@ -1,17 +1,21 @@
 {
   "name": "brackets-various-improvements",
   "title": "Various improvements",
-  "version": "1.0.2",
-  "description": "Add more informations in the status bar, lowercase and uppercase converter, super clipboard, button close all folders in file tree.",
+  "version": "2.0.0",
+  "description": "Add more informations in the status bar, lowercase and uppercase converter, super clipboard, button close all folders in file tree, files search",
   "homepage": "https://github.com/Dammmien/brackets-various-improvements",
   "files": [
       "main.js",
       "betterInterface.js",
       "caseConverter.js",
       "superClipboard.js",
-      "style.css"
+      "searchFiles.js",
+      "searchFilesResult",
+      "magnifier.png",
+      "style.css",
+      "README.md"
   ],
   "engines": {
-      "brackets": ">=0.24.0"
+      "brackets": ">=0.26.0"
   }
 }

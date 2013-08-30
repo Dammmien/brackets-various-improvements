@@ -1,5 +1,5 @@
 #closeAllFolders{
-  background:#333333;
+  background:#333;
   display: inline-block;
   font-size: 15px;
   border-radius: 3px;
@@ -8,12 +8,47 @@
   top: 8px;
   right: 8px;
 }
-
+#search-files-button{
+  background: url('magnifier.png') center center no-repeat #333;
+  display: inline-block;
+  border-radius: 3px;
+  position: absolute;
+  top: 8px;
+  right: 28px;
+  width: 18px;
+  height: 18px;
+}
+#search-files-button:hover,
 #closeAllFolders:hover{
-  background:#555555;
+  background-color:#000;
   cursor:pointer;
 }
-
 #project-files-header{
   position:relative;
+}
+.search-files-extension{
+  background: #555;
+  color: #FFF;
+  padding: 2px 9px 4px 10px;
+  border-radius: 3px;
+  line-height: 12px;
+  font-size: 11px;
+  display: inline-block;
+  margin: 0 0 0 5px;
+}
+.search-files-extension:hover{
+  background: #333;
+  cursor:pointer;
+}
+input[type="text"].search-files-input{
+  margin: 0 0 0 10px;
+  width: 160px;
+}
+.bottom-panel .toolbar .close.search-files-close{
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}
+tr.search-files-result{
+  cursor:pointer;
 }

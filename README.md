@@ -1,6 +1,5 @@
 Various improvements
 =============================
-It's an experiment of Brackets code editor extensions.
 
 This extension add some small improvements :
 
@@ -8,3 +7,4 @@ This extension add some small improvements :
 - Add a toLowerCase and toUpperCase features in the contextual menu.
 - Add a super clipboard features Ctrl+Alt+C to copy and Ctrl+Alt+V to paste. (In this way you can have two separate clipboard)
 - Add a close button in the file tree that allows you to close all the opened folders when you are lost in your project.
+- Add a files search that allow you to find a file in your project using filter by filename or extension
