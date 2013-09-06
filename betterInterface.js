@@ -9,6 +9,7 @@ define(function (require, exports, module) {
         $('#project-files-header').append('<div id="closeAllFolders">&times;</div>');
         $('#closeAllFolders').on('click', function () {
             $('.jstree-open').addClass('jstree-closed').removeClass('jstree-open');
+            $('.jstree-clicked').click();
             $('#project-files-container').scrollTop(0);
         });
     }
