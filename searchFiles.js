@@ -87,6 +87,8 @@ define(function (require, exports, module) {
     function resetSearch() {
         Resizer.hide($searchFilesPanel);
         $('.search-files-table').empty();
+        $('.search-files-input').val('');
+        $('#number-found-files').hide();
         projectFilesList = [];
     }
 
