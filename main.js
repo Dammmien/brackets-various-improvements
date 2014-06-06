@@ -15,8 +15,8 @@ define(function (require, exports, module) {
         COMMAND_ID_U      = 'caseConverter.uppercase',
         COMMAND_ID_L      = 'caseConverter.lowercase',
         COMMAND_ID_C      = 'superClipboard.cut',
-        COMMAND_ID_S      = 'searchFiles.launchSearch',
         COMMAND_ID_V      = 'superClipboard.paste',
+        COMMAND_ID_F      = 'searchFiles.launchSearch',
         
         menu              = Menus.getContextMenu(Menus.ContextMenuIds.EDITOR_MENU);
     
@@ -24,14 +24,14 @@ define(function (require, exports, module) {
     CommandManager.register("Convert to lowercase", COMMAND_ID_L, caseConverter.lowercase);
     CommandManager.register("Super Cut", COMMAND_ID_C, superClipboard.cut);
     CommandManager.register("Super Paste", COMMAND_ID_V, superClipboard.paste);
-    CommandManager.register("Search File", COMMAND_ID_S, searchFiles.launchSearch);
+    CommandManager.register("Search File", COMMAND_ID_F, searchFiles.launchSearch);
     
     menu.addMenuDivider();
     menu.addMenuItem(COMMAND_ID_U);
     menu.addMenuItem(COMMAND_ID_L);
     menu.addMenuItem(COMMAND_ID_C, "Ctrl-Alt-C");
     menu.addMenuItem(COMMAND_ID_V, "Ctrl-Alt-V");
-    menu.addMenuItem(COMMAND_ID_S, "Ctrl-Alt-F");
+    menu.addMenuItem(COMMAND_ID_F, "Ctrl-Alt-F");
     
     ExtensionUtils.loadStyleSheet(module, 'style.css');
     
