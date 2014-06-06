@@ -108,8 +108,7 @@ define(function (require, exports, module) {
         });
         $searchFilesPanel.on('click', '.close', function () { resetSearch(); });
         $(ProjectManager).on("projectOpen", resetSearch);
-        FileSystem.on("rename", resetSearch)
-        FileSystem.on("change", resetSearch)
+        FileSystem.on("rename", resetSearch);
         $('.search-files-table').on('click', 'tr.search-files-result', function () {
             DocumentManager.getDocumentForPath($(this).attr('data-path')).done(function (doc) {
                 DocumentManager.setCurrentDocument(doc);
