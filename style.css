@@ -1,80 +1,81 @@
-#closeAllFolders{
-  background:#333;
-  display: inline-block;
-  font-size: 15px;
-  border-radius: 3px;
-  padding: 0 5px;
-  position: absolute;
-  top: 8px;
-  right: 8px;
+#closeAllFolders {
+	background: #333;
+	display: inline-block;
+	font-size: 15px;
+	border-radius: 3px;
+	padding: 0 5px;
+	position: absolute;
+	top: 8px;
+	right: 8px;
 }
-#search-files-button{
-  background: url('magnifier.png') center center no-repeat #333;
-  display: inline-block;
-  border-radius: 3px;
-  position: absolute;
-  top: 8px;
-  right: 28px;
-  width: 18px;
-  height: 18px;
+#search-files-button {
+	background: url('magnifier.png') center center no-repeat #333;
+	display: inline-block;
+	border-radius: 3px;
+	position: absolute;
+	top: 8px;
+	right: 28px;
+	width: 18px;
+	height: 18px;
 }
 #search-files-button:hover,
-#closeAllFolders:hover{
-  background-color:#000;
-  cursor:pointer;
+#closeAllFolders:hover {
+	background-color: #000;
+	cursor: pointer;
 }
-#project-files-header{
-  position:relative;
+#project-files-header {
+	position: relative;
 }
-.search-files-extension{
-  background: #555;
-  color: #FFF;
-  padding: 2px 9px 4px 10px;
-  border-radius: 3px;
-  line-height: 12px;
-  font-size: 11px;
-  display: inline-block;
-  margin: 0 0 0 5px;
+.search-files-extension {
+	background: #555;
+	color: #FFF;
+	padding: 2px 9px 4px 10px;
+	border-radius: 3px;
+	line-height: 12px;
+	font-size: 11px;
+	display: inline-block;
+	margin: 0 0 0 5px;
 }
-.search-files-extension:hover{
-  background: #333;
-  cursor:pointer;
+.search-files-extension:hover {
+	background: #333;
+	cursor: pointer;
 }
-input[type="text"].search-files-input{
-  margin: 0 0 0 10px;
-  width: 160px;
+input[type="text"].search-files-input {
+	margin: 0 0 0 10px;
+	width: 160px;
 }
-.bottom-panel .toolbar .close.search-files-close{
-  position: absolute;
-  right: 15px;
-  top: 10px;
+.bottom-panel .toolbar .close.search-files-close {
+	position: absolute;
+	right: 15px;
+	top: 20px;
+	padding: 0 5px;
 }
-tr.search-files-result{
-  cursor:pointer;
+tr.search-files-result {
+	cursor: pointer;
 }
-.search-files-table_container{
-  position:relative;
+.search-files-table_container {
+	position: relative;
 }
-#no-find-file{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 20px;
-  width: 100%;
-  margin: auto;
-  text-align: center;
-  font-size: 20px;
-  display:none;
+#no-find-file {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 20px;
+	width: 100%;
+	margin: auto;
+	text-align: center;
+	font-size: 20px;
+	display: none;
 }
-#number-found-files{
-  font-size: 12px;
-  color: #555;
-  display: inline-block;
-  padding: 0 0 0 10px;
-  margin: 0 0 0 10px;
-  line-height: 10px;
-  vertical-align: middle;
-  border-left: 1px solid #999;
+#number-found-files {
+	font-size: 12px;
+	color: #555;
+	display: inline-block;
+	padding: 0 0 0 10px;
+	margin: 0 0 0 10px;
+	line-height: 10px;
+	vertical-align: middle;
+	border-left: 1px solid #999;
 }
