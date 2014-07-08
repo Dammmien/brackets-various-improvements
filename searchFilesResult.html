@@ -1,17 +1,13 @@
 <div id="search-files-results" class="bottom-panel vert-resizable top-resizer" style="display: none; box-sizing: border-box; height: 313px;">
   <div class="toolbar simple-toolbar-layout">
     <div class="title">Search : </div>
-    <input type="text" placeholder="File name that contains" class="search-files-input" />
-    <div class="search-files-extension" data-extension=".css">.css</div>
-    <div class="search-files-extension" data-extension=".html">.html</div>
-    <div class="search-files-extension" data-extension=".js">.js</div>
-    <div class="search-files-extension" data-extension=".php">.php</div>
-    <div class="search-files-extension" data-extension=".less">.less</div>
+    <input type="text" placeholder="File name that contains" id="search-files-input" />
+    <span id="search-files-extension-container"></span>
     <span id="number-found-files"></span>
-    <a href="#" class="close search-files-close">×</a>
+    <a href="#" class="close" id="close-search-files-button">×</a>
   </div>
   <div class="table-container resizable-content search-files-table_container" style="height: 260px;">
-    <table class="table table-striped table-condensed row-highlight search-files-table">
+    <table class="table table-striped table-condensed row-highlight" id="search-files-table">
       <tbody>
       </tbody>
     </table>

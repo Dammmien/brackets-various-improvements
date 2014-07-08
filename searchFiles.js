@@ -1,129 +1,233 @@
 /*global define, brackets, $ */
 
-define(function (require, exports, module) {
+define( function( require, exports ) {
     "use strict";
 
-    var DocumentManager     = brackets.getModule('document/DocumentManager'),
-        FileSystem          = brackets.getModule('filesystem/FileSystem'),
-        PanelManager        = brackets.getModule('view/PanelManager'),
-        ProjectManager      = brackets.getModule('project/ProjectManager'),
-        Resizer             = brackets.getModule('utils/Resizer'),
-        resultTemplate      = require("text!searchFilesResult.html"),
-        searchFilesPanel    = PanelManager.createBottomPanel('searchFiles.panel', $(resultTemplate), 100),
-        $searchFilesPanel   = $('#search-files-results'),
-        projectFilesList    = [],
+    var DocumentManager = brackets.getModule( 'document/DocumentManager' ),
+        FileSystem = brackets.getModule( 'filesystem/FileSystem' ),
+        PanelManager = brackets.getModule( 'view/PanelManager' ),
+        ProjectManager = brackets.getModule( 'project/ProjectManager' ),
+        Resizer = brackets.getModule( 'utils/Resizer' ),
+        resultTemplate = require( "text!searchFilesResult.html" ),
+        projectFilesList = [],
         html;
 
-    function checkResultNb(a, b) {
-        if (a > 0) {
-            $('#no-find-file').hide();
-            $('#number-found-files').text(a + ' found file(s) among ' + b + ' files').show();
-        } else {
-            $('#number-found-files').empty().hide();
-            $('#number-analysed-files').text(b);
-            $('#no-find-file').show();
-        }
-    }
+    function SearchFiles() {
 
-    function listProjectFiles() {
-        ProjectManager.getAllFiles().done(function (fileListResult) {
-            var fileListResultLength = fileListResult.length,
-                i,
-                dot,
-                extension,
-                fileData;
-            for (i = 0; i < fileListResultLength; i += 1) {
-                dot       = fileListResult[i].name.lastIndexOf(".");
-                extension = fileListResult[i].name.substring(dot);
-                fileData  = {name: fileListResult[i].name, fullPath: fileListResult[i].fullPath, ext: extension};
-                projectFilesList.push(fileData);
+        this.build = function( ext ) {
+
+            this.extensions = ext;
+            this.currentExt = null;
+
+            PanelManager.createBottomPanel( 'searchFiles.panel', $( resultTemplate ), 100 )
+
+            this.input = document.getElementById( 'search-files-input' );
+            this.searchFilesTable = document.getElementById( 'search-files-table' );
+            this.searchFilesPanel = document.getElementById( 'search-files-results' );
+            this.extensionsContainer = document.getElementById( 'search-files-extension-container' );
+            this.closeSearchFilesButton = document.getElementById( 'close-search-files-button' );
+
+            this.buildSearchButton();
+            this.buildExtensions();
+            this.initEvents();
+
+        };
+
+        this.buildExtensions = function() {
+
+            for ( var i = 0; i < this.extensions.length; i++ ) {
+                var ext = document.createElement( 'div' );
+                ext.className = 'search-files-extension';
+                ext.innerHTML = this.extensions[ i ];
+                ext.addEventListener( 'click', function() {
+                    this.currentExt = this.extensions[ i ];
+                    this.search( this.isInExtension );
+                }.bind( this ) );
+                this.extensionsContainer.appendChild( ext );
             }
-        });
-    }
 
-    function addToResult(name, path) {
-        html = '<tr class="search-files-result" data-path="';
-        html += path;
-        html += '"><td>';
-        html += name;
-        html += '</td><td>';
-        html += path;
-        html += '</td></tr>';
-        $('.search-files-table').append(html);
-    }
+        },
 
-    function searchInName(name_searched) {
-        var projectFilesListLength = projectFilesList.length,
-            resultNb = 0,
-            i;
-        $('.search-files-table').empty();
-        for (i = 0; i < projectFilesListLength; i += 1) {
-            if (projectFilesList[i].name.indexOf(name_searched) !== -1) {
-                addToResult(projectFilesList[i].name, projectFilesList[i].fullPath);
-                resultNb += 1;
+        this.initEvents = function() {
+
+            this.input.addEventListener( 'keyup', this.handleKeyCode.bind( this ) );
+            $( ProjectManager ).on( "projectOpen", this.resetPanel.bind( this ) );
+            FileSystem.on( "rename", this.resetPanel.bind( this ) );
+            this.closeSearchFilesButton.addEventListener( 'click', this.resetPanel.bind( this ) );
+
+        },
+
+        this.buildSearchButton = function() {
+
+            var projectFilesHeader = document.getElementById( 'project-files-header' ),
+                searchButton = document.createElement( 'div' );
+
+            searchButton.id = 'search-files-button';
+            searchButton.addEventListener( 'click', this.show.bind( this ) );
+
+            projectFilesHeader.appendChild( searchButton );
+
+        };
+
+        this.openFile = function( url ) {
+
+            DocumentManager.getDocumentForPath( url ).done( function( doc ) {
+                DocumentManager.setCurrentDocument( doc );
+                this.input.focus();
+            }.bind( this ) );
+
+        };
+
+        this.checkResultNb = function() {
+
+            if ( this.results.length > 0 ) {
+                $( '#no-find-file' ).hide();
+                $( '#number-found-files' ).text( this.results.length + ' found file(s) among ' + this.projectFilesListLength + ' files' ).show();
+            } else {
+                $( '#number-found-files' ).empty().hide();
+                $( '#number-analysed-files' ).text( this.projectFilesListLength );
+                $( '#no-find-file' ).show();
             }
-        }
-        checkResultNb(resultNb, projectFilesListLength);
-    }
 
-    function searchInExtension(ext_searched, name_searched) {
-        var projectFilesListLength = projectFilesList.length,
-            resultNb = 0,
-            i,
-            ext,
-            name;
-        $('.search-files-table').empty();
-        for (i = 0; i < projectFilesListLength; i += 1) {
-            ext   = projectFilesList[i].ext;
-            name  = name_searched === '*' ? '*' : projectFilesList[i].name;
-            if (name.indexOf(name_searched) !== -1 && ext_searched.indexOf(ext) !== -1) {
-                addToResult(projectFilesList[i].name, projectFilesList[i].fullPath);
-                resultNb += 1;
+        };
+
+        this.listProjectFiles = function() {
+
+            ProjectManager.getAllFiles().done( function( fileListResult ) {
+                var fileListResultLength = fileListResult.length,
+                    i,
+                    dot,
+                    fileData;
+                for ( i = 0; i < fileListResultLength; i += 1 ) {
+                    dot = fileListResult[ i ].name.lastIndexOf( "." );
+                    projectFilesList.push( {
+                        name: fileListResult[ i ].name.substring( 0, dot ),
+                        ext: fileListResult[ i ].name.substring( dot ),
+                        nameWithExtension: fileListResult[ i ].name,
+                        fullPath: fileListResult[ i ].fullPath,
+                    } );
+                }
+                this.resultNb = this.projectFilesListLength = projectFilesList.length;
+            }.bind( this ) );
+
+        };
+
+        this.displayResults = function() {
+
+            for ( var i = 0; i < this.results.length; i++ ) {
+
+                var res = this.results[ i ],
+                    row = document.createElement( 'tr' );
+
+                row.className = "search-files-result";
+                row.innerHTML = '<td>' + res.name + '</td>';
+                row.innerHTML += '<td>' + res.path + '</td>';
+                row.addEventListener( 'click', function() {
+                    this.openFile( path )
+                }.bind( this ) );
+
+                this.searchFilesTable.appendChild( row );
+
             }
-        }
-        checkResultNb(resultNb, projectFilesListLength);
-    }
 
-    function resetSearch() {
-        Resizer.hide($searchFilesPanel);
-        $('.search-files-table').empty();
-        $('.search-files-input').val('');
-        $('#number-found-files').hide();
-        projectFilesList = [];
-    }
+            this.checkResultNb();
 
+        };
 
-    function launchSearch() {
-        Resizer.show($searchFilesPanel);
-        listProjectFiles();
-        $('.search-files-input').focus().keypress(function (e) {
-            if (e.which === 13) {
-                searchInName($('.search-files-input').val());
+        this.isInExtension = function( f ) {
+
+            return ( f.name.indexOf( this.input.value ) !== -1 && this.currentExt === f.ext );
+
+        };
+
+        this.isInName = function( f ) {
+
+            return ( f.nameWithExtension.indexOf( this.input.value ) !== -1 );
+
+        };
+
+        this.search = function( isIn ) {
+
+            this.resetSearch();
+
+            for ( var i = 0; i < this.projectFilesListLength; i += 1 ) {
+                if ( isIn.bind( this )( projectFilesList[ i ] ) ) {
+                    this.results.push( {
+                        name: projectFilesList[ i ].nameWithExtension,
+                        path: projectFilesList[ i ].fullPath
+                    } );
+                }
             }
-        });
-        $('.search-files-extension').on('click', function () {
-            var name_searched = $('.search-files-input').val() !== '' ? $('.search-files-input').val() : '*',
-                ext_searched  = $(this).attr('data-extension');
-            searchInExtension(ext_searched, name_searched);
-        });
-        $searchFilesPanel.on('click', '.close', function () { resetSearch(); });
-        $(ProjectManager).on("projectOpen", resetSearch);
-        FileSystem.on("rename", resetSearch);
-        $('.search-files-table').on('click', 'tr.search-files-result', function () {
-            DocumentManager.getDocumentForPath($(this).attr('data-path')).done(function (doc) {
-                DocumentManager.setCurrentDocument(doc);
-            });
-        });
-    }
 
-    function init() {
-        $('#project-files-header').append('<div id="search-files-button"></div>');
-        $('#search-files-button').on('click', function () {
-            launchSearch();
-        });
-    }
+            this.displayResults();
 
-    exports.init = init;
-    exports.launchSearch = launchSearch;
+        };
 
-});
+        this.resetSearch = function() {
+
+            this.searchFilesTable.innerHTML = '';
+            this.results = [];
+
+        };
+
+        this.resetPanel = function() {
+
+            this.resetSearch();
+            this.input.value = '';
+            $( '#number-found-files' ).hide();
+            projectFilesList = [];
+            this.removeSelectedRow();
+            Resizer.hide( this.searchFilesPanel );
+
+        };
+
+        this.handleKeyCode = function( e ) {
+
+            var key = e.keyCode,
+                ref = {
+                    13: function() {
+                        if ( $( '.search-files-result.selected' ).length !== 0 )
+                            $( '.search-files-result.selected' ).click();
+                    },
+                    40: function() {
+                        if ( $( '.search-files-result.selected' ).length === 0 )
+                            $( '#search-files-table .search-files-result:first-child' ).addClass( 'selected' );
+                        else
+                            $( '.search-files-result.selected' ).removeClass( 'selected' ).next().addClass( 'selected' );
+                    },
+                    38: function() {
+                        if ( $( '.search-files-result.selected' ).length === 0 )
+                            $( '#search-files-table .search-files-result:last-child' ).addClass( 'selected' );
+                        else
+                            $( '.search-files-result.selected' ).removeClass( 'selected' ).prev().addClass( 'selected' );
+                    }
+                };
+
+            if ( ref.hasOwnProperty( key ) ) {
+                ref[ key ]();
+            } else {
+                this.removeSelectedRow();
+                this.search( this.isInName );
+            }
+
+        };
+
+        this.removeSelectedRow = function() {
+
+            $( '.search-files-result.selected' ).removeClass( 'selected' );
+
+        };
+
+        this.show = function() {
+
+            Resizer.show( this.searchFilesPanel );
+            this.listProjectFiles();
+            this.input.focus();
+
+        };
+
+    };
+
+    exports.SearchFiles = SearchFiles;
+
+} );

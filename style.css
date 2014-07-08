@@ -40,17 +40,14 @@
   background: #333;
   cursor:pointer;
 }
-input[type="text"].search-files-input{
+#search-files-input{
   margin: 0 0 0 10px;
   width: 160px;
 }
-.bottom-panel .toolbar .close.search-files-close{
-  position: absolute;
-  right: 15px;
-  top: 10px;
-}
-tr.search-files-result{
-  cursor:pointer;
+.search-files-result.selected td,
+.search-files-result:hover td{
+    background-color: #e0f0fa!important;
+    cursor:pointer;
 }
 .search-files-table_container{
   position:relative;
