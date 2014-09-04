@@ -47,8 +47,8 @@ define( function( require, exports, module ) {
         CommandManager.register( "Convert to uppercase", COMMAND_ID_U, caseConverter.uppercase );
         CommandManager.register( "Convert to lowercase", COMMAND_ID_L, caseConverter.lowercase );
 
-        menu.addMenuItem( COMMAND_ID_U );
-        menu.addMenuItem( COMMAND_ID_L );
+        menu.addMenuItem( COMMAND_ID_U, "Ctrl-Shift-U" );
+        menu.addMenuItem( COMMAND_ID_L, "Ctrl-Shift-L" );
 
     }
 
