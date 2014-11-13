@@ -13,7 +13,9 @@ define( function( require, exports ) {
 		html;
 
 	function SearchFiles() {
-
+		
+		this.searchingDebounceTimeout = null;
+		
 		this.build = function( ext ) {
 
 			this.extensions = ext;
@@ -92,11 +94,13 @@ define( function( require, exports ) {
 		};
 
 		this.listProjectFiles = function() {
-
-			ProjectManager.getAllFiles().done( function( fileListResult ) {
+			var dot;
+			ProjectManager.getAllFiles(function(File, number) {
+				dot = File.name.lastIndexOf( "." );
+				return !(File.name.substring( dot ) == '.scssc');
+			}).done( function( fileListResult ) {
 				var fileListResultLength = fileListResult.length,
 					i,
-					dot,
 					fileData;
 				for ( i = 0; i < fileListResultLength; i += 1 ) {
 					dot = fileListResult[ i ].name.lastIndexOf( "." );
@@ -148,19 +152,28 @@ define( function( require, exports ) {
 		};
 
 		this.search = function( isIn ) {
+			var instance = this;
+			/* avoids make multiple search while typing */
+			((instance.searchingDebounceTimeout) ? clearTimeout(instance.searchingDebounceTimeout) : null);
+            
+			instance.searchingDebounceTimeout = setTimeout(function() {
+				if (instance.input.value != '') {
+					/* Begin: Do search */
+					instance.resetSearch();
 
-			this.resetSearch();
+					for ( var i = 0; i < instance.projectFilesListLength; i += 1 ) {
+						if ( isIn.bind( instance )( projectFilesList[ i ] ) ) {
+							instance.results.push( {
+								name: projectFilesList[ i ].nameWithExtension,
+								path: projectFilesList[ i ].fullPath
+							} );
+						}
+					}
 
-			for ( var i = 0; i < this.projectFilesListLength; i += 1 ) {
-				if ( isIn.bind( this )( projectFilesList[ i ] ) ) {
-					this.results.push( {
-						name: projectFilesList[ i ].nameWithExtension,
-						path: projectFilesList[ i ].fullPath
-					} );
+					instance.displayResults();
 				}
-			}
-
-			this.displayResults();
+			}, 500);
+			
 
 		};
 
