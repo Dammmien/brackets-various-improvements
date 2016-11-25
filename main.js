@@ -55,7 +55,12 @@ define( function( require, exports, module ) {
     if ( enabledFeatures[ "better-interface" ] ) {
 
         var BetterInterface = require( "betterInterface" ).BetterInterface,
-            betterInterface = new BetterInterface( userPrefs.units );
+            betterInterface = new BetterInterface( userPrefs.units ),
+            COMMAND_ID_X = 'betterInterface.closeAllFolders';
+
+        CommandManager.register( "Close all Folders", COMMAND_ID_X, betterInterface.onCloseFolders );
+
+        menu.addMenuItem( COMMAND_ID_X, "Ctrl-Alt-Shift-X" );
 
         betterInterface.init();
 
